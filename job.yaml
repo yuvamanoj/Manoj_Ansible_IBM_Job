@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: Manoj-ansible
+  namespace: newoperator
+spec:
+  selector: {}
+  template:
+    metadata:
+      name: Manoj-ansible
+    spec:
+      containers:
+        - name: ansible-toolbox
+          image: us.icr.io/cloud-tribe/cloud-security-toolbox:v1
+          command: [ "/bin/sh", "-c" ]
+          args: 
+            - 
+              git clone https://github.ibm.com/Cloud-Security/PCC-OC-Chart.git /tmp/playbook;
+              ansible-playbook /tmp/playbook/ansible_pccdashboard_backend.yml;
+      restartPolicy: Never
+	    volumes:
+		    - name: ssh-deployment-key
+		        secret:
+			        secretName: manojansible
